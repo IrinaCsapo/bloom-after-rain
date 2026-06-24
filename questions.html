@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bloom after Rain</title>
+  <meta name="theme-color" content="#0B0A10" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <style>
+    /* Transition between questions */
+    .question-wrap {
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+    .question-wrap.exiting {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    .question-wrap.entering {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" aria-label="Site navigation">
+    <a href="/" class="nav-brand">Bloom after Rain</a>
+    <span class="dot">·</span>
+    <a href="/garden">the garden</a>
+    <span class="dot">·</span>
+    <a href="https://irina.love">irina.love</a>
+  </nav>
+
+  <!-- Question flow -->
+  <main class="question-page" id="question-page" aria-live="polite">
+    <p class="question-progress" id="progress-label" aria-label="Question progress">01 / 04</p>
+
+    <div class="question-wrap" id="question-wrap">
+      <h2 class="question-text" id="question-text"></h2>
+      <p class="question-hint" id="question-hint"></p>
+      <textarea
+        class="question-input"
+        id="question-input"
+        rows="3"
+        aria-label="Your answer"
+      ></textarea>
+    </div>
+
+    <nav class="question-nav" aria-label="Question navigation">
+      <button class="btn btn-ghost" id="btn-back" onclick="goBack()" aria-label="Previous question">
+        ← back
+      </button>
+      <button class="btn btn-outline" id="btn-next" onclick="goNext()" aria-label="Next question">
+        next →
+      </button>
+    </nav>
+  </main>
+
+  <!-- Loading state (shown after submission) -->
+  <div id="loading-screen" class="loading-page" style="display:none;" aria-label="Generating your bloom" aria-live="polite">
+    <div class="bloom-grow-anim" aria-hidden="true">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <p class="loading-text">your bloom is growing…</p>
+  </div>
+
+  <script src="/js/questions.js"></script>
+</body>
+</html>

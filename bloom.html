@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Bloom — Bloom after Rain</title>
+  <meta name="theme-color" content="#0B0A10" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="nav" aria-label="Site navigation">
+    <a href="/" class="nav-brand">Bloom after Rain</a>
+    <span class="dot">·</span>
+    <a href="/garden">the garden</a>
+    <span class="dot">·</span>
+    <a href="https://irina.love">irina.love</a>
+  </nav>
+
+  <!-- Loading state while fetching image -->
+  <div id="bloom-loading" class="loading-page" aria-live="polite" aria-label="Your bloom is being prepared">
+    <div class="bloom-grow-anim" aria-hidden="true">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <p class="loading-text">your bloom is ready…</p>
+  </div>
+
+  <!-- Bloom result (hidden until ready) -->
+  <main id="bloom-result" class="bloom-page" style="display:none;" aria-label="Your bloom">
+    <div class="bloom-container">
+
+      <!-- Flower image -->
+      <div class="bloom-image-wrap bloom-in" aria-label="Your flower">
+        <div class="bloom-image-placeholder" id="image-placeholder" aria-hidden="true">
+          <div class="ring"></div>
+          <div class="ring"></div>
+          <div class="ring"></div>
+        </div>
+        <img
+          id="bloom-image"
+          class="bloom-image"
+          src=""
+          alt=""
+          aria-hidden="true"
+        />
+      </div>
+
+      <!-- Flower identity -->
+      <p class="bloom-for-you fade-in">your bloom is</p>
+      <h1 class="bloom-flower-name fade-in" id="flower-name">—</h1>
+      <p class="bloom-flower-meaning fade-in" id="flower-meaning"></p>
+
+      <div class="bloom-divider fade-in" aria-hidden="true"></div>
+
+      <!-- Letter -->
+      <article class="bloom-letter fade-in" aria-label="Your letter">
+        <h2 class="bloom-letter-title" id="letter-title"></h2>
+        <div class="bloom-letter-body" id="letter-body"></div>
+      </article>
+
+      <!-- Actions -->
+      <div class="bloom-actions fade-in">
+        <div class="bloom-actions-row">
+          <button class="btn btn-outline" onclick="shareBloom()" aria-label="Share your bloom">
+            share
+          </button>
+          <a href="/questions" class="btn btn-ghost" aria-label="Grow a new bloom">
+            grow another
+          </a>
+        </div>
+        <a href="/garden" class="bloom-garden-link">visit the bloom garden →</a>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="/js/bloom.js"></script>
+</body>
+</html>

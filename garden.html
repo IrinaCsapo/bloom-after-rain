@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Bloom Garden — Bloom after Rain</title>
+  <meta name="theme-color" content="#0B0A10" />
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+
+  <nav class="nav" aria-label="Site navigation">
+    <a href="/" class="nav-brand">Bloom after Rain</a>
+    <span class="dot">·</span>
+    <a href="/garden" style="color: var(--accent)">the garden</a>
+    <span class="dot">·</span>
+    <a href="https://irina.love">irina.love</a>
+  </nav>
+
+  <main class="garden-page">
+
+    <header class="garden-header fade-in">
+      <p class="eyebrow" style="margin-bottom:1rem">your blooms</p>
+      <h1 class="garden-title display">the bloom garden</h1>
+      <p class="garden-subtitle">everything that has grown here</p>
+    </header>
+
+    <div id="garden-grid" class="garden-grid" aria-label="Your blooms" aria-live="polite">
+      <!-- Cards populated by JS -->
+    </div>
+
+    <div id="garden-empty" class="garden-empty" style="display:none;" aria-label="Empty garden">
+      <p class="garden-empty-text">
+        Nothing has bloomed here yet.
+      </p>
+      <p style="font-size:0.9rem; color:var(--text-faint); line-height:1.7;">
+        Your garden grows each time you tend to it.
+      </p>
+      <a href="/questions" class="btn btn-outline" style="margin-top:0.5rem">grow your first bloom</a>
+    </div>
+
+  </main>
+
+  <footer style="text-align:center; padding: 3rem 2rem; font-size:0.7rem; color:var(--text-faint); letter-spacing:0.1em;">
+    <a href="/">bloom after rain</a>
+    <span style="margin:0 0.5rem">·</span>
+    <a href="https://irina.love">irina.love</a>
+  </footer>
+
+  <script src="/js/garden.js"></script>
+</body>
+</html>

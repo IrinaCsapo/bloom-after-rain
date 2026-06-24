@@ -1,0 +1,10 @@
+{
+  "name": "bloom-after-rain",
+  "version": "1.0.0",
+  "description": "Tool № 04 — Bloom after Rain · irina.love",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "openai": "^4.77.0"
+  }
+}
