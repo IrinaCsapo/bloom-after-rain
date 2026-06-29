@@ -119,6 +119,9 @@ async function submitAnswers() {
   loadingScreen.style.display = 'flex';
 
   try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 25000);
+
     const res = await fetch('/.netlify/functions/generate-bloom', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -127,8 +130,10 @@ async function submitAnswers() {
         absence:   answers.absence,
         returning: answers.returning,
         new:       answers.new
-      })
+      }),
+      signal: controller.signal
     });
+    clearTimeout(timeout);
 
     if (!res.ok) throw new Error('API error');
 
