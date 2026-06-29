@@ -4,6 +4,8 @@
  * luminous and ethereal — like the reference photographs.
  */
 
+export const config = { timeout: 26 };
+
 export default async function handler(req) {
   if (req.method !== 'POST') {
     return new Response('Method not allowed', { status: 405 });
