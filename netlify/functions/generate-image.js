@@ -40,12 +40,10 @@ export default async function handler(req) {
         'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model:   'dall-e-3',
+        model:   'dall-e-2',
         prompt,
         n:       1,
-        size:    '1024x1024',
-        quality: 'standard',
-        style:   'natural'
+        size:    '512x512'
       })
     });
 
@@ -76,15 +74,10 @@ export default async function handler(req) {
 
 function buildPrompt(flowerName, flowerColor) {
   return [
-    `Extreme close-up macro photograph of a single ${flowerName || 'flower'},`,
-    `ultra soft focus, dreamy bokeh throughout,`,
-    `pale periwinkle-lavender blue background, ethereal and luminous,`,
+    `Macro photograph of a single ${flowerName || 'flower'},`,
+    `soft focus, dreamy bokeh, pale periwinkle-lavender background,`,
     `${flowerColor ? flowerColor + ',' : ''}`,
-    `petals dissolving into soft blurred light,`,
-    `artistically out of focus with beautiful bokeh in foreground,`,
-    `tender and emotional quality, film photography aesthetic,`,
-    `one blossom centered, dreamlike, glowing softly,`,
-    `barely tangible yet deeply present,`,
-    `high end photography, no text, no watermark`
+    `ethereal and luminous, tender film photography aesthetic,`,
+    `no text, no watermark`
   ].join(' ').replace(/\s+/g, ' ').trim();
 }
