@@ -1,7 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
 
-export const config = { timeout: 26 };
-
 const FLOWERS = {
   snowdrop: {
     name: 'Snowdrop',
