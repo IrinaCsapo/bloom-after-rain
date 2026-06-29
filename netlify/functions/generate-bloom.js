@@ -1,47 +1,23 @@
-import Anthropic from '@anthropic-ai/sdk';
+/**
+ * generate-bloom — calls Anthropic API directly via fetch (no SDK dependency).
+ * Selects a flower archetype + writes a tender letter for the person's grief.
+ */
 
 const FLOWERS = {
-  snowdrop: {
-    name: 'Snowdrop',
-    color: 'translucent white petals, soft pale green stem, delicate and barely-there, winter light filtering through',
-  },
-  hyacinth: {
-    name: 'Hyacinth',
-    color: 'soft lavender and violet cluster, tender purple tones, densely blooming',
-  },
-  wild_violet: {
-    name: 'Wild Violet',
-    color: 'deep violet purple petals, golden yellow center, delicate and small',
-  },
-  peony: {
-    name: 'Peony',
-    color: 'soft blush pink to coral, lush many-layered petals, abundant and full',
-  },
-  forget_me_not: {
-    name: 'Forget-Me-Not',
-    color: 'tiny sky blue petals, pale yellow-white center, in a soft cluster',
-  },
-  cherry_blossom: {
-    name: 'Cherry Blossom',
-    color: 'palest blush pink to white, papery delicate petals, some falling',
-  },
-  night_jasmine: {
-    name: 'Night Jasmine',
-    color: 'pure white star-shaped petals, ethereal and glowing, moonlit quality',
-  },
-  hellebore: {
-    name: 'Hellebore',
-    color: 'deep burgundy to dusty dark purple, nodding downward, velvety petals',
-  },
-  lotus: {
-    name: 'Lotus',
-    color: 'soft pink petals fading to white at tips, golden-yellow center, rising pure and clear',
-  }
+  snowdrop:       { name: 'Snowdrop',       color: 'translucent white petals, soft pale green stem, delicate and barely-there, winter light filtering through' },
+  hyacinth:       { name: 'Hyacinth',       color: 'soft lavender and violet cluster, tender purple tones, densely blooming' },
+  wild_violet:    { name: 'Wild Violet',    color: 'deep violet purple petals, golden yellow center, delicate and small' },
+  peony:          { name: 'Peony',          color: 'soft blush pink to coral, lush many-layered petals, abundant and full' },
+  forget_me_not:  { name: 'Forget-Me-Not', color: 'tiny sky blue petals, pale yellow-white center, in a soft cluster' },
+  cherry_blossom: { name: 'Cherry Blossom',color: 'palest blush pink to white, papery delicate petals, some falling' },
+  night_jasmine:  { name: 'Night Jasmine', color: 'pure white star-shaped petals, ethereal and glowing, moonlit quality' },
+  hellebore:      { name: 'Hellebore',     color: 'deep burgundy to dusty dark purple, nodding downward, velvety petals' },
+  lotus:          { name: 'Lotus',         color: 'soft pink petals fading to white at tips, golden-yellow center, rising pure and clear' }
 };
 
 const SYSTEM_PROMPT = `You are Bloom after Rain — a tender tool for people moving through grief and renewal. You speak with warmth, care, and quiet wisdom. You never offer false comfort. You witness what is real.`;
 
-const USER_PROMPT = (answers) => `
+const buildUserPrompt = (answers) => `
 A person has shared their story with you. Read it with care:
 
 What they lost: "${answers.loss}"
@@ -112,27 +88,36 @@ export default async function handler(req) {
   }
 
   try {
-    const client = new Anthropic({ apiKey });
-
-    const message = await client.messages.create({
-      model: 'claude-haiku-4-5-20251001',
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: [
-        {
-          role: 'user',
-          content: USER_PROMPT({ loss, absence, returning, new: newAns })
-        }
-      ]
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'claude-haiku-4-5-20251001',
+        max_tokens: 1024,
+        system: SYSTEM_PROMPT,
+        messages: [
+          { role: 'user', content: buildUserPrompt({ loss, absence, returning, new: newAns }) }
+        ]
+      })
     });
 
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`Anthropic error: ${res.status} ${err}`);
+    }
+
+    const message = await res.json();
     const rawText = message.content[0].text.trim();
 
-    // Parse JSON — strip any markdown fences if present
-    const jsonText = rawText.replace(/^```json?\n?/i, '').replace(/\n?```$/,'').trim();
+    // Strip markdown fences if present
+    const jsonText = rawText.replace(/^```json?\n?/i, '').replace(/\n?```$/, '').trim();
     const data = JSON.parse(jsonText);
 
-    // Enrich with flower color from our vocab if needed
+    // Enrich with flower color if missing
     const flowerMeta = FLOWERS[data.flower];
     if (flowerMeta && !data.flower_color) {
       data.flower_color = flowerMeta.color;
