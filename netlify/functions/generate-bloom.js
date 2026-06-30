@@ -58,7 +58,7 @@ Respond ONLY with valid JSON in exactly this structure, no other text:
   "letter_title": "the title here",
   "letter_body": "First paragraph.\\n\\nSecond paragraph.",
   "flower_meaning": "2-3 sentences about why this flower.",
-  "image_prompt": "A photographic image generation prompt for this flower in the style of dreamy, ultra soft focus macro photography"
+  "image_prompt": "Describe only the flower itself for image generation — its specific color, form, and character. Do not describe style, focus, or background. Example: 'a single peony with soft blush-pink to coral layered petals, abundant and full, gentle light falling across the bloom'. Keep it to one sentence."
 }
 `.trim();
 

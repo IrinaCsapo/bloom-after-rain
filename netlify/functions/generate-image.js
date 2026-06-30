@@ -28,7 +28,8 @@ export default async function handler(req) {
   }
 
   const { flower_name, flower_color, image_prompt } = body;
-  const prompt = image_prompt || buildPrompt(flower_name, flower_color);
+  const base   = image_prompt || buildPrompt(flower_name, flower_color);
+  const prompt = `${base}, ${STYLE_SUFFIX}`;
 
   try {
     // FLUX Schnell via Replicate — prefer=wait returns result synchronously (no polling)
@@ -80,14 +81,21 @@ export default async function handler(req) {
   }
 }
 
+// Locked aesthetic — appended to every prompt so the look is always consistent
+const STYLE_SUFFIX = [
+  'extreme soft focus, painterly blur, impressionistic macro photography,',
+  'soft periwinkle-lavender blue background, uniform and pale,',
+  'pastel color palette, high key light, gentle luminous glow,',
+  'through-glass diffusion effect, no sharp edges anywhere,',
+  'single stem centered, flower dissolving into soft light,',
+  'analog film grain, tender emotional quality, dreamlike and abstract,',
+  'photographic, not illustration'
+].join(' ');
+
 function buildPrompt(flowerName, flowerColor) {
   return [
-    `extreme close-up macro photograph of a single ${flowerName || 'flower'},`,
-    `ultra soft focus, dreamy bokeh throughout,`,
-    `pale periwinkle-lavender blue background, ethereal and luminous,`,
-    `${flowerColor ? flowerColor + ',' : ''}`,
-    `petals dissolving into soft blurred light,`,
-    `tender emotional quality, film photography aesthetic,`,
-    `one blossom centered, dreamlike, glowing softly`
-  ].join(' ').replace(/\s+/g, ' ').trim();
+    `a single ${flowerName || 'flower'}`,
+    flowerColor ? `with ${flowerColor}` : '',
+    `on a soft pale periwinkle-blue background`
+  ].filter(Boolean).join(' ');
 }
