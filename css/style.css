@@ -146,9 +146,7 @@ a {
 .hero-overlay {
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 50% 50%, transparent 0%, var(--bg) 90%),
-    linear-gradient(to bottom, var(--bg) 0%, transparent 20%, transparent 80%, var(--bg) 100%);
+  background: linear-gradient(to bottom, rgba(11,10,16,0.25) 0%, transparent 15%, transparent 82%, rgba(11,10,16,0.55) 100%);
   z-index: 1;
 }
 
@@ -169,7 +167,8 @@ a {
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--accent-dim);
+  color: rgba(255,255,255,0.7);
+  text-shadow: 0 1px 12px rgba(0,0,0,0.6);
 }
 
 .hero-title {
@@ -180,7 +179,8 @@ a {
   font-optical-sizing: auto;
   line-height: 1;
   letter-spacing: -0.025em;
-  color: var(--text);
+  color: #ffffff;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.35);
 }
 
 .hero-subtitle {
@@ -189,8 +189,9 @@ a {
   font-weight: 300;
   font-size: clamp(1rem, 2.5vw, 1.3rem);
   font-optical-sizing: auto;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.88);
   letter-spacing: 0.01em;
+  text-shadow: 0 1px 14px rgba(0,0,0,0.5);
 }
 
 .hero-footer {
@@ -203,17 +204,18 @@ a {
   align-items: center;
   justify-content: center;
   gap: 0.75rem;
-  font-size: 0.7rem;
-  letter-spacing: 0.12em;
-  color: var(--text-faint);
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: rgba(255,255,255,0.65);
+  text-shadow: 0 1px 8px rgba(0,0,0,0.5);
 }
 
 .hero-footer a {
-  color: var(--text-faint);
+  color: rgba(255,255,255,0.65);
   transition: color 0.25s;
 }
 .hero-footer a:hover {
-  color: var(--text-muted);
+  color: rgba(255,255,255,1);
 }
 
 /* ─── Buttons ────────────────────────────────────────── */
