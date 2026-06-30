@@ -4,15 +4,18 @@
  */
 
 const FLOWERS = {
-  snowdrop:       { name: 'Snowdrop',       color: 'translucent white petals, soft pale green stem, delicate and barely-there, winter light filtering through' },
-  hyacinth:       { name: 'Hyacinth',       color: 'soft lavender and violet cluster, tender purple tones, densely blooming' },
-  wild_violet:    { name: 'Wild Violet',    color: 'deep violet purple petals, golden yellow center, delicate and small' },
-  peony:          { name: 'Peony',          color: 'soft blush pink to coral, lush many-layered petals, abundant and full' },
-  forget_me_not:  { name: 'Forget-Me-Not', color: 'tiny sky blue petals, pale yellow-white center, in a soft cluster' },
-  cherry_blossom: { name: 'Cherry Blossom',color: 'palest blush pink to white, papery delicate petals, some falling' },
-  night_jasmine:  { name: 'Night Jasmine', color: 'pure white star-shaped petals, ethereal and glowing, moonlit quality' },
-  hellebore:      { name: 'Hellebore',     color: 'deep burgundy to dusty dark purple, nodding downward, velvety petals' },
-  lotus:          { name: 'Lotus',         color: 'soft pink petals fading to white at tips, golden-yellow center, rising pure and clear' }
+  snowdrop:        { name: 'Snowdrop',        color: 'translucent white petals, soft pale green stem, delicate and barely-there, winter light filtering through' },
+  hyacinth:        { name: 'Hyacinth',        color: 'soft lavender and violet cluster, tender purple tones, densely blooming' },
+  wild_violet:     { name: 'Wild Violet',     color: 'deep violet purple petals, golden yellow center, delicate and small' },
+  peony:           { name: 'Peony',           color: 'soft blush pink to coral, lush many-layered petals, abundant and full' },
+  forget_me_not:   { name: 'Forget-Me-Not',  color: 'tiny sky blue petals, pale yellow-white center, in a soft cluster' },
+  cherry_blossom:  { name: 'Cherry Blossom', color: 'palest blush pink to white, papery delicate petals, some falling' },
+  night_jasmine:   { name: 'Night Jasmine',  color: 'pure white star-shaped petals, ethereal and glowing, moonlit quality' },
+  hellebore:       { name: 'Hellebore',      color: 'deep burgundy to dusty dark purple, nodding downward, velvety petals' },
+  lotus:           { name: 'Lotus',          color: 'soft pink petals fading to white at tips, golden-yellow center, rising pure and clear' },
+  wisteria:        { name: 'Wisteria',       color: 'cascading lilac and soft violet clusters, hanging gently, dreamy and abundant' },
+  bleeding_heart:  { name: 'Bleeding Heart', color: 'rose-pink and white heart-shaped flowers hanging from arching stems, delicate and pendulous' },
+  iris:            { name: 'Iris',           color: 'deep violet-blue petals with gold veining, upright and regal yet tender, soft purple tones' }
 };
 
 const SYSTEM_PROMPT = `You are Bloom after Rain — a tender tool for people moving through grief and renewal. You speak with warmth, care, and quiet wisdom. You never offer false comfort. You witness what is real.`;
@@ -27,16 +30,19 @@ What they are ready to let be new: "${answers.new}"
 
 Your task:
 
-1. Choose their flower — the one that resonates most with the nature of their loss and what is returning. Choose from:
-   - snowdrop: hope after losing safety, certainty, or the familiar world
-   - hyacinth: renewal and self-forgiveness after a relationship has ended
-   - wild_violet: honouring someone who is gone, faithfulness across loss
-   - peony: loss of self or identity, soft healing and abundance returning
-   - forget_me_not: distance, disconnection, the tenderness of what you hold onto
-   - cherry_blossom: any kind of ending, beauty in impermanence, beginning again
-   - night_jasmine: quiet private grief, what returns when no one is watching
-   - hellebore: grief carried a long time, finding beauty and strength in darkness
-   - lotus: healing from illness, disease, or cancer — rising clear and untouched from what tried to take you
+1. Choose their flower — the one that resonates most precisely with the nature of their loss and what is returning. Each flower has a specific resonance; choose carefully and avoid defaulting to the same flower repeatedly. Choose from:
+   - snowdrop: hope returning after losing safety, certainty, or the familiar world — the first tender sign of light
+   - hyacinth: renewal and self-forgiveness specifically after a romantic relationship or close bond has ended
+   - wild_violet: grief of honouring someone who has died or is gone forever — faithfulness across loss
+   - peony: loss of self through burnout, trauma, or chronic difficulty — the self slowly returning to itself, layer by layer
+   - forget_me_not: grief of distance, disconnection, or separation — someone or something held tenderly from far away
+   - cherry_blossom: grief over something that ended too soon — a loss felt as beautiful and brief, the ache of impermanence
+   - night_jasmine: quiet, private grief that is carried alone — what begins to return when no one is watching
+   - hellebore: grief carried for years, old and deep — finding unexpected beauty and resilience inside the darkness
+   - lotus: healing after illness, disease, cancer, or a body-level crisis — rising clear from what tried to take you
+   - wisteria: grief soaked in longing and nostalgia — mourning a time, a version of life, or a version of yourself that was beautiful and cannot return
+   - bleeding_heart: grief where love is at the centre — love given but not received, love lost, love that left a wound still present
+   - iris: grief from a major life transition or threshold — crossing from one chapter to another, with real loss on both sides
 
 2. Write them a letter from renewal itself — two paragraphs only. Speak directly to this person. Reference the specific words and feelings they shared. Be tender, not clinical. Do not offer easy comfort. Let them feel seen. End with something that leaves space for hope without forcing it.
 
