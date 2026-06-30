@@ -1,6 +1,9 @@
 const loadingEl = document.getElementById('bloom-loading');
 const resultEl  = document.getElementById('bloom-result');
 
+// Captured when the generated image loads
+let resolvedImageUrl = '';
+
 // Retrieve data from sessionStorage
 const raw = sessionStorage.getItem('bloomData');
 if (!raw) {
@@ -72,6 +75,9 @@ async function loadImage(data) {
       imgEl.classList.add('loaded');
       placeholder.style.display = 'none';
 
+      // Capture for share URL
+      resolvedImageUrl = url;
+
       // Update garden entry with image
       updateGardenImage(data.created_at, url);
     };
@@ -92,20 +98,33 @@ function updateGardenImage(createdAt, imageUrl) {
   } catch (_) {}
 }
 
-function shareBloom() {
-  const meaning = (bloomData.flower_meaning || '').split(/\.\s+/).slice(0, 2).join('. ').trim();
-  const suffix  = meaning && !meaning.endsWith('.') ? '.' : '';
-  const text = [
-    `🌸 My bloom is a ${bloomData.flower_name}.`,
-    `"${bloomData.letter_title}"`,
-    `${meaning}${suffix}`,
-    ``,
-    `Grow your own bloom at bloom.irina.love`
-  ].join('\n');
+async function copyLink() {
+  const data = {
+    n: bloomData.flower_name    || '',
+    m: bloomData.flower_meaning || '',
+    i: resolvedImageUrl         || bloomData.image_url || '',
+    t: bloomData.letter_title   || ''
+  };
 
-  // WhatsApp share URL
-  const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
-  window.open(waUrl, '_blank', 'noopener');
+  // Base64-encode the payload (UTF-8 safe)
+  const encoded  = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  const shareUrl = `https://bloom.irina.love/share?d=${encoded}`;
+
+  const btn = document.querySelector('[onclick="copyLink()"]');
+
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    if (btn) { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = 'Copy Link'; }, 2500); }
+  } catch (_) {
+    // Fallback: select a temp input
+    const tmp = document.createElement('input');
+    tmp.value = shareUrl;
+    document.body.appendChild(tmp);
+    tmp.select();
+    document.execCommand('copy');
+    document.body.removeChild(tmp);
+    if (btn) { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = 'Copy Link'; }, 2500); }
+  }
 }
 
 // Init: show result, then load image
