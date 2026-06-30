@@ -39,7 +39,7 @@ Your task:
    - cherry_blossom: grief over something that ended too soon — a loss felt as beautiful and brief, the ache of impermanence
    - night_jasmine: quiet, private grief that is carried alone — what begins to return when no one is watching
    - hellebore: grief carried for years, old and deep — finding unexpected beauty and resilience inside the darkness
-   - lotus: healing after illness, disease, cancer, or a body-level crisis — rising clear from what tried to take you
+   - lotus: healing after illness, disease, cancer, or a body-level crisis — learning to inhabit a changed body with tenderness, rising clear from what tried to take you, becoming someone new without leaving yourself behind
    - wisteria: grief soaked in longing and nostalgia — mourning a time, a version of life, or a version of yourself that was beautiful and cannot return
    - bleeding_heart: grief where love is at the centre — love given but not received, love lost, love that left a wound still present
    - iris: grief from a major life transition or threshold — crossing from one chapter to another, with real loss on both sides
