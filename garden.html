@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Bloom Garden — Bloom after Rain</title>
+  <title>Garden of Resilience — Bloom after Rain</title>
   <meta name="theme-color" content="#0B0A10" />
   <link rel="stylesheet" href="/css/style.css" />
 </head>
@@ -12,7 +12,7 @@
   <nav class="nav" aria-label="Site navigation">
     <a href="/" class="nav-brand">Bloom after Rain</a>
     <span class="dot">·</span>
-    <a href="/garden" style="color: var(--accent)">the garden</a>
+    <a href="/garden" style="color: var(--accent)">The Garden</a>
     <span class="dot">·</span>
     <a href="https://irina.love">irina.love</a>
   </nav>
@@ -20,10 +20,15 @@
   <main class="garden-page">
 
     <header class="garden-header fade-in">
-      <p class="eyebrow" style="margin-bottom:1rem">your blooms</p>
-      <h1 class="garden-title display">the bloom garden</h1>
-      <p class="garden-subtitle">everything that has grown here</p>
+      <p class="eyebrow" style="margin-bottom:1rem">Your Blooms</p>
+      <h1 class="garden-title display">Garden of Resilience</h1>
+      <p class="garden-subtitle">Everything that has grown here</p>
     </header>
+
+    <div class="garden-ctas fade-in">
+      <a href="/questions" class="btn btn-outline">Grow Your Bloom</a>
+      <a href="/garden" class="garden-resilience-link">Visit The Garden of Resilience</a>
+    </div>
 
     <div id="garden-grid" class="garden-grid" aria-label="Your blooms" aria-live="polite">
       <!-- Cards populated by JS -->
@@ -33,19 +38,29 @@
       <p class="garden-empty-text">
         Nothing has bloomed here yet.
       </p>
-      <p style="font-size:0.9rem; color:var(--text-faint); line-height:1.7;">
+      <p style="font-size:0.9rem; color:rgba(255,255,255,0.6); line-height:1.7;">
         Your garden grows each time you tend to it.
       </p>
-      <a href="/questions" class="btn btn-outline" style="margin-top:0.5rem">grow your first bloom</a>
+      <a href="/questions" class="btn btn-outline" style="margin-top:0.5rem">Grow Your First Bloom</a>
     </div>
 
   </main>
 
-  <footer style="text-align:center; padding: 3rem 2rem; font-size:0.7rem; color:var(--text-faint); letter-spacing:0.1em;">
-    <a href="/">bloom after rain</a>
+  <footer style="text-align:center; padding: 3rem 2rem; font-size:0.7rem; color:rgba(255,255,255,0.5); letter-spacing:0.1em;">
+    <a href="/" style="color:rgba(255,255,255,0.5)">Bloom after Rain</a>
     <span style="margin:0 0.5rem">·</span>
-    <a href="https://irina.love">irina.love</a>
+    <a href="https://irina.love" style="color:rgba(255,255,255,0.5)">irina.love</a>
   </footer>
+
+  <!-- Bloom modal -->
+  <div id="bloom-modal" class="bloom-modal-overlay" role="dialog" aria-modal="true" aria-label="Bloom detail" style="display:none;">
+    <div class="bloom-modal-inner">
+      <button class="bloom-modal-close" onclick="closeModal()" aria-label="Close">✕</button>
+      <img id="modal-image" class="bloom-modal-image" src="" alt="" />
+      <h2 id="modal-flower" class="bloom-modal-flower"></h2>
+      <p id="modal-meaning" class="bloom-modal-meaning"></p>
+    </div>
+  </div>
 
   <script src="/js/garden.js"></script>
 </body>

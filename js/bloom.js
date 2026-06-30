@@ -92,27 +92,20 @@ function updateGardenImage(createdAt, imageUrl) {
   } catch (_) {}
 }
 
-async function shareBloom() {
-  const shareText = `My bloom is a ${bloomData.flower_name}. "${bloomData.letter_title}" — from Bloom after Rain`;
-  const shareUrl  = 'https://bloom.irina.love';
+function shareBloom() {
+  const meaning = (bloomData.flower_meaning || '').split(/\.\s+/).slice(0, 2).join('. ').trim();
+  const suffix  = meaning && !meaning.endsWith('.') ? '.' : '';
+  const text = [
+    `🌸 My bloom is a ${bloomData.flower_name}.`,
+    `"${bloomData.letter_title}"`,
+    `${meaning}${suffix}`,
+    ``,
+    `Grow your own bloom at bloom.irina.love`
+  ].join('\n');
 
-  if (navigator.share) {
-    try {
-      await navigator.share({
-        title: 'Bloom after Rain',
-        text:  shareText,
-        url:   shareUrl
-      });
-    } catch (_) {}
-  } else {
-    // Fallback: copy to clipboard
-    try {
-      await navigator.clipboard.writeText(`${shareText}\n${shareUrl}`);
-      const btn = document.querySelector('button[onclick="shareBloom()"]');
-      btn.textContent = 'copied ✓';
-      setTimeout(() => { btn.textContent = 'share'; }, 2500);
-    } catch (_) {}
-  }
+  // WhatsApp share URL
+  const waUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+  window.open(waUrl, '_blank', 'noopener');
 }
 
 // Init: show result, then load image

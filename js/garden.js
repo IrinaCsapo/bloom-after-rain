@@ -1,5 +1,6 @@
 const gridEl  = document.getElementById('garden-grid');
 const emptyEl = document.getElementById('garden-empty');
+const modal   = document.getElementById('bloom-modal');
 
 function formatDate(isoString) {
   try {
@@ -11,11 +12,36 @@ function formatDate(isoString) {
   }
 }
 
+function openModal(bloom) {
+  document.getElementById('modal-image').src   = bloom.image_url || '';
+  document.getElementById('modal-image').alt   = bloom.flower_name || '';
+  document.getElementById('modal-flower').textContent  = bloom.flower_name || '';
+  document.getElementById('modal-meaning').textContent = bloom.flower_meaning || '';
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  modal.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+// Close on backdrop click
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) closeModal();
+});
+
+// Close on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeModal();
+});
+
 function renderCard(bloom, index) {
   const card = document.createElement('div');
   card.className = 'garden-card fade-in';
   card.style.animationDelay = `${index * 0.08}s`;
-  card.setAttribute('role', 'article');
+  card.setAttribute('role', 'button');
+  card.setAttribute('tabindex', '0');
   card.setAttribute('aria-label', `${bloom.flower_name} bloom`);
 
   const imageHtml = bloom.image_url
@@ -29,10 +55,9 @@ function renderCard(bloom, index) {
     <p class="garden-card-date">${formatDate(bloom.created_at)}</p>
   `;
 
-  // Click to re-view this bloom
-  card.addEventListener('click', () => {
-    sessionStorage.setItem('bloomData', JSON.stringify(bloom));
-    window.location.href = '/bloom';
+  card.addEventListener('click', () => openModal(bloom));
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openModal(bloom); }
   });
 
   card.style.cursor = 'pointer';
