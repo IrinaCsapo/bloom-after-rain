@@ -7,6 +7,7 @@
 
 [functions]
   node_bundler = "esbuild"
+  external_node_modules = ["@netlify/blobs"]
 
 [[headers]]
   for = "/*"
@@ -38,4 +39,9 @@
 [[redirects]]
   from = "/share"
   to = "/.netlify/functions/share"
+  status = 200
+
+[[redirects]]
+  from = "/save-bloom"
+  to = "/.netlify/functions/save-bloom"
   status = 200

@@ -99,31 +99,41 @@ function updateGardenImage(createdAt, imageUrl) {
 }
 
 async function copyLink() {
-  const data = {
-    n: bloomData.flower_name    || '',
-    m: bloomData.flower_meaning || '',
-    i: resolvedImageUrl         || bloomData.image_url || '',
-    t: bloomData.letter_title   || ''
-  };
-
-  // Base64-encode the payload (UTF-8 safe)
-  const encoded  = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
-  const shareUrl = `https://bloom.irina.love/share?d=${encoded}`;
-
   const btn = document.querySelector('[onclick="copyLink()"]');
+  if (btn) btn.textContent = 'Saving…';
 
   try {
-    await navigator.clipboard.writeText(shareUrl);
+    // Save bloom to server, get back a short ID
+    const res = await fetch('/.netlify/functions/save-bloom', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        flower_name:    bloomData.flower_name    || '',
+        flower_meaning: bloomData.flower_meaning || '',
+        image_url:      resolvedImageUrl || bloomData.image_url || '',
+        letter_title:   bloomData.letter_title   || ''
+      })
+    });
+
+    const { id } = await res.json();
+    const shareUrl = `https://bloom.irina.love/share?id=${id}`;
+
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+    } catch (_) {
+      const tmp = document.createElement('input');
+      tmp.value = shareUrl;
+      document.body.appendChild(tmp);
+      tmp.select();
+      document.execCommand('copy');
+      document.body.removeChild(tmp);
+    }
+
     if (btn) { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = 'Copy Link'; }, 2500); }
-  } catch (_) {
-    // Fallback: select a temp input
-    const tmp = document.createElement('input');
-    tmp.value = shareUrl;
-    document.body.appendChild(tmp);
-    tmp.select();
-    document.execCommand('copy');
-    document.body.removeChild(tmp);
-    if (btn) { btn.textContent = 'Copied ✓'; setTimeout(() => { btn.textContent = 'Copy Link'; }, 2500); }
+
+  } catch (err) {
+    console.error('copyLink error:', err);
+    if (btn) { btn.textContent = 'Try Again'; setTimeout(() => { btn.textContent = 'Copy Link'; }, 2500); }
   }
 }
 

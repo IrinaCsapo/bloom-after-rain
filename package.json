@@ -1,5 +1,8 @@
 {
   "name": "bloom-after-rain",
   "version": "1.0.0",
-  "description": "Tool № 04 — Bloom after Rain · irina.love"
+  "description": "Tool № 04 — Bloom after Rain · irina.love",
+  "dependencies": {
+    "@netlify/blobs": "^8.0.0"
+  }
 }
