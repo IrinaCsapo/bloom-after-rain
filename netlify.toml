@@ -45,3 +45,8 @@
   from = "/save-bloom"
   to = "/.netlify/functions/save-bloom"
   status = 200
+
+[[redirects]]
+  from = "/flower-image"
+  to = "/.netlify/functions/flower-image"
+  status = 200

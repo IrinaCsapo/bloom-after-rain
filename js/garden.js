@@ -2,6 +2,10 @@ const gridEl  = document.getElementById('garden-grid');
 const emptyEl = document.getElementById('garden-empty');
 const modal   = document.getElementById('bloom-modal');
 
+const PAGE_SIZE = 6;
+let garden  = [];
+let showing = 0;
+
 function formatDate(isoString) {
   try {
     return new Date(isoString).toLocaleDateString('en-GB', {
@@ -13,10 +17,10 @@ function formatDate(isoString) {
 }
 
 function openModal(bloom) {
-  document.getElementById('modal-image').src   = bloom.image_url || '';
-  document.getElementById('modal-image').alt   = bloom.flower_name || '';
-  document.getElementById('modal-flower').textContent  = bloom.flower_name || '';
-  document.getElementById('modal-meaning').textContent = bloom.flower_meaning || '';
+  document.getElementById('modal-image').src            = bloom.image_url || '';
+  document.getElementById('modal-image').alt            = bloom.flower_name || '';
+  document.getElementById('modal-flower').textContent   = bloom.flower_name || '';
+  document.getElementById('modal-meaning').textContent  = bloom.flower_meaning || '';
   modal.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
@@ -26,27 +30,30 @@ function closeModal() {
   document.body.style.overflow = '';
 }
 
-// Close on backdrop click
-modal.addEventListener('click', (e) => {
-  if (e.target === modal) closeModal();
-});
-
-// Close on Escape key
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') closeModal();
-});
+modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
 
 function renderCard(bloom, index) {
   const card = document.createElement('div');
   card.className = 'garden-card fade-in';
-  card.style.animationDelay = `${index * 0.08}s`;
+  card.style.animationDelay = `${(index % PAGE_SIZE) * 0.08}s`;
   card.setAttribute('role', 'button');
   card.setAttribute('tabindex', '0');
   card.setAttribute('aria-label', `${bloom.flower_name} bloom`);
 
-  const imageHtml = bloom.image_url
-    ? `<img class="garden-card-image" src="${bloom.image_url}" alt="${bloom.flower_name}" loading="lazy" />`
-    : `<div class="garden-card-image-placeholder" aria-hidden="true"></div>`;
+  let imageHtml;
+  if (bloom.image_url) {
+    // onerror swaps broken/expired images to the placeholder div
+    imageHtml = `<img
+      class="garden-card-image"
+      src="${bloom.image_url}"
+      alt="${bloom.flower_name}"
+      loading="lazy"
+      onerror="this.outerHTML='<div class=\\'garden-card-image-placeholder\\'></div>'"
+    />`;
+  } else {
+    imageHtml = `<div class="garden-card-image-placeholder" aria-hidden="true"></div>`;
+  }
 
   card.innerHTML = `
     ${imageHtml}
@@ -64,8 +71,38 @@ function renderCard(bloom, index) {
   return card;
 }
 
+function removeViewMore() {
+  const existing = document.getElementById('view-more-btn');
+  if (existing) existing.remove();
+}
+
+function addViewMore() {
+  removeViewMore();
+  if (showing >= garden.length) return;
+
+  const btn = document.createElement('button');
+  btn.id = 'view-more-btn';
+  btn.className = 'btn btn-ghost';
+  btn.textContent = `View More (${garden.length - showing} remaining)`;
+  btn.style.cssText = 'display:block; margin: 2rem auto 0; letter-spacing:0.1em; font-size:0.8rem;';
+
+  btn.addEventListener('click', () => {
+    loadMore();
+  });
+
+  gridEl.after(btn);
+}
+
+function loadMore() {
+  const next = garden.slice(showing, showing + PAGE_SIZE);
+  next.forEach((bloom, i) => {
+    gridEl.appendChild(renderCard(bloom, showing + i));
+  });
+  showing += next.length;
+  addViewMore();
+}
+
 function init() {
-  let garden = [];
   try {
     garden = JSON.parse(localStorage.getItem('bloomGarden') || '[]');
   } catch (_) {}
@@ -76,9 +113,8 @@ function init() {
     return;
   }
 
-  garden.forEach((bloom, i) => {
-    gridEl.appendChild(renderCard(bloom, i));
-  });
+  // Render first page
+  loadMore();
 }
 
 init();

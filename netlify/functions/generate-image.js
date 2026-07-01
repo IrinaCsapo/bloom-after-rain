@@ -1,8 +1,10 @@
 /**
- * generate-image — uses Replicate FLUX Schnell for dreamy flower portraits.
- * Fast (1–4s), beautiful quality, no OpenAI dependency.
- * Aesthetic: soft focus, bokeh, pale periwinkle background, luminous & ethereal.
+ * generate-image — FLUX Schnell via Replicate, image proxied to Netlify Blobs.
+ * Replicate output URLs expire in ~1h. We fetch the bytes immediately and store
+ * them permanently in Netlify Blobs, returning a stable /flower-image?id=... URL.
  */
+
+import { getStore } from '@netlify/blobs';
 
 export default async function handler(req) {
   if (req.method !== 'POST') {
@@ -32,7 +34,7 @@ export default async function handler(req) {
   const prompt = `${base}, ${STYLE_SUFFIX}`;
 
   try {
-    // FLUX Schnell via Replicate — prefer=wait returns result synchronously (no polling)
+    // 1. Generate via Replicate FLUX Schnell
     const res = await fetch(
       'https://api.replicate.com/v1/models/black-forest-labs/flux-schnell/predictions',
       {
@@ -61,15 +63,25 @@ export default async function handler(req) {
     }
 
     const prediction = await res.json();
-    const url = prediction.output?.[0];
-    if (!url) throw new Error('No output from Replicate');
+    const replicateUrl = prediction.output?.[0];
+    if (!replicateUrl) throw new Error('No output from Replicate');
+
+    // 2. Fetch image bytes from Replicate (URL expires in ~1h)
+    const imgRes = await fetch(replicateUrl);
+    if (!imgRes.ok) throw new Error(`Failed to fetch image: ${imgRes.status}`);
+    const imgBytes = await imgRes.arrayBuffer();
+
+    // 3. Store permanently in Netlify Blobs
+    const id    = crypto.randomUUID().replace(/-/g, '').slice(0, 12);
+    const store = getStore('flower-images');
+    await store.set(id, imgBytes, { metadata: { contentType: 'image/webp' } });
+
+    // 4. Return stable URL via our serve function
+    const url = `/.netlify/functions/flower-image?id=${id}`;
 
     return new Response(JSON.stringify({ url }), {
       status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Cache-Control': 'no-store'
-      }
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }
     });
 
   } catch (err) {
