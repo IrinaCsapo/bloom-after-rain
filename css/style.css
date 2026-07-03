@@ -241,15 +241,17 @@ a {
 }
 
 .btn-outline {
-  background: transparent;
-  border: 1px solid rgba(194, 170, 223, 0.35);
-  color: var(--text);
+  background: rgba(194, 170, 223, 0.22);
+  border: 1px solid rgba(194, 170, 223, 0.65);
+  color: #fff;
+  box-shadow: 0 0 18px rgba(194, 170, 223, 0.14);
 }
 
 .btn-outline:hover {
-  background: rgba(194, 170, 223, 0.08);
-  border-color: var(--accent);
-  color: var(--accent);
+  background: rgba(194, 170, 223, 0.38);
+  border-color: rgba(194, 170, 223, 0.9);
+  color: #fff;
+  box-shadow: 0 0 28px rgba(194, 170, 223, 0.26);
 }
 
 .btn-ghost {
