@@ -25,8 +25,7 @@ A person has shared their story with you. Read it with care:
 
 What they lost: "${answers.loss}"
 What the absence feels like: "${answers.absence}"
-What is starting to return: "${answers.returning}"
-What they are ready to let be new: "${answers.new}"
+What they would like to grow back: "${answers.returning}"
 
 Your task:
 
