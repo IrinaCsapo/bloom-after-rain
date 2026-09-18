@@ -15,17 +15,10 @@ const QUESTIONS = [
   },
   {
     number: '03',
-    text: 'What is the first small thing you\'ve noticed returning?',
-    hint: 'An appetite. A laugh. A morning where you didn\'t remember right away. Anything, even the smallest thing counts.',
-    placeholder: 'even the smallest thing…',
-    key: 'returning'
-  },
-  {
-    number: '04',
-    text: 'What are you ready to let be new?',
+    text: 'What would you like to grow back?',
     hint: 'Not what you think you should feel — what you actually notice in yourself, beginning to stir.',
     placeholder: 'what\'s becoming possible…',
-    key: 'new'
+    key: 'returning'
   }
 ];
 
@@ -50,7 +43,7 @@ function renderQuestion(index, direction = 'forward') {
 
   setTimeout(() => {
     // Swap content
-    progressLabel.textContent = `${q.number} / 04`;
+    progressLabel.textContent = `${q.number} / 03`;
     questionText.textContent  = q.text;
     questionHint.textContent  = q.hint;
     questionInput.placeholder = q.placeholder;
@@ -128,8 +121,7 @@ async function submitAnswers() {
       body: JSON.stringify({
         loss:      answers.loss,
         absence:   answers.absence,
-        returning: answers.returning,
-        new:       answers.new
+        returning: answers.returning
       }),
       signal: controller.signal
     });
