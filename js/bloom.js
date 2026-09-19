@@ -83,7 +83,11 @@ async function loadImage(data) {
     };
   } catch (err) {
     console.error('Image load failed:', err);
-    // Leave placeholder — the letter is still shown
+    // Show error in placeholder so we can debug
+    const placeholder = document.getElementById('image-placeholder');
+    if (placeholder) {
+      placeholder.innerHTML = `<p style="color:rgba(255,255,255,0.4);font-size:0.7rem;padding:1rem;text-align:center;">${err.message}</p>`;
+    }
   }
 }
 
