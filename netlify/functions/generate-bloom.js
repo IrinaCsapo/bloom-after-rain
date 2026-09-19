@@ -84,9 +84,9 @@ export default async function handler(req) {
     });
   }
 
-  const { loss, absence, returning, new: newAns } = answers;
-  if (!loss || !absence || !returning || !newAns) {
-    return new Response(JSON.stringify({ error: 'All four answers are required' }), {
+  const { loss, absence, returning } = answers;
+  if (!loss || !absence || !returning) {
+    return new Response(JSON.stringify({ error: 'All three answers are required' }), {
       status: 400,
       headers: { 'Content-Type': 'application/json' }
     });
@@ -105,7 +105,7 @@ export default async function handler(req) {
         max_tokens: 1024,
         system: SYSTEM_PROMPT,
         messages: [
-          { role: 'user', content: buildUserPrompt({ loss, absence, returning, new: newAns }) }
+          { role: 'user', content: buildUserPrompt({ loss, absence, returning }) }
         ]
       })
     });
